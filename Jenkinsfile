@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Pranith1Kumar/calculator-app.git'
+                git 'https://github.com/Pranith1Kumar/jenpydo.git'
             }
         }
         stage('Build Docker Image') {
