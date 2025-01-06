@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_IMAGE = 'calculator-app'
+    }
+    
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Pranith1Kumar/calculator-app.git'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}")
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    docker.image("${DOCKER_IMAGE}").inside {
+                        sh 'pytest'
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.image("${DOCKER_IMAGE}").run('-d -p 5000:5000')
+                }
+            }
+        }
+    }
+}
