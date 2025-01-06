@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent 'docker'
     
     environment {
         DOCKER_IMAGE = 'calculator-app'
