@@ -1,17 +1,14 @@
-# Use a Python base image
+# Use the official Python 3.9 slim image as a base
 FROM python:3.9-slim
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy project files into the container
-COPY . /app
+# Copy the current directory contents into the container at /app
+COPY . .
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Expose port 8080 for communication
+EXPOSE 8080
 
-# Expose the application port
-EXPOSE 5000
-
-# Define the command to run the app
-CMD ["python", "app.py"]
+# Command to run the calculator application
+CMD ["python", "calculator.py"]
