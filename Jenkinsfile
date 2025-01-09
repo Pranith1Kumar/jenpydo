@@ -1,23 +1,29 @@
 pipeline {
     agent any
-
-    environment {
-        DOCKER_IMAGE = 'calculator-app1'
-    }
-
     stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Pranith1Kumar/jenpydo.git'
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}")
+                    sh 'docker build -t calculator-app1 .'
                 }
             }
         }
-        stage('Deploy') {
+        stage('Run Docker Container') {
             steps {
                 script {
-                    // Run the Docker container
-                    docker.image("${DOCKER_IMAGE}").run('-d -p 5000:5000')
+                    sh 'docker run -d -p 5000:5000 --name calculator-container1 calculator-app1'
+                }
+            }
+        }
+        stage('Test Application') {
+            steps {
+                script {
+                    sh 'curl http://localhost:5000/add?a=10&b=5'
                 }
             }
         }
